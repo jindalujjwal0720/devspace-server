@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
     trim: true,
+    required: true,
   },
   lastName: {
     type: String,
@@ -12,6 +13,7 @@ const UserSchema = new mongoose.Schema({
   displayName: {
     type: String,
     trim: true,
+    required: true,
   },
   profilePictureURL: {
     type: String,
