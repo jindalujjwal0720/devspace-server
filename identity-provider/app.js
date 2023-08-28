@@ -9,6 +9,6 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/idp", require("./routes/index"));
+router.use("/idp", require("./routes/index"));
 
 module.exports = router;
