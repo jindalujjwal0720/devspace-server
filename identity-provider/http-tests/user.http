@@ -1,0 +1,5 @@
+@base_url=http://localhost:5000/api/idp
+
+### check service status
+GET {{base_url}}/
+
