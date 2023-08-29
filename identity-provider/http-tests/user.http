@@ -3,3 +3,14 @@
 ### check service status
 GET {{base_url}}/
 
+### create a new user
+POST {{base_url}}/user/create
+Content-Type: application/json
+
+{
+    "user": {
+        "firstName": "John",
+        "displayName": "John Doe",
+        "email": "john@devspace.com"
+    }
+}

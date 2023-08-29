@@ -6,9 +6,27 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+export interface IUser extends mongoose.Document {
+  firstName: string;
+  lastName?: string;
+  displayName: string;
+  profilePictureURL?: string;
+  dob?: Date;
+  gender?: string;
+  address: {
+    street?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    pincode?: string;
+  };
+  phone?: string;
+  email: string;
+}
+
+const UserSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
   firstName: {
     type: String,
     trim: true,
@@ -70,4 +88,4 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("User", UserSchema);
+export default mongoose.model<IUser>("User", UserSchema);

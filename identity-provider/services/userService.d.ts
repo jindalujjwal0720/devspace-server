@@ -6,3 +6,8 @@
  * Proprietary and confidential. All rights reserved.
  */
 
+import { IUser } from "../models/User";
+
+export default interface IUserService {
+  createUser(user: IUser): Promise<IUser>;
+}

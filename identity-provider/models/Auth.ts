@@ -6,9 +6,17 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-const AuthSchema = new mongoose.Schema({
+export interface IAuth extends mongoose.Document {
+  email: string;
+  passwordHash: string;
+  twoFactorAuthEnabled: boolean;
+  isBlocked: boolean;
+  isDeleted: boolean;
+}
+
+const AuthSchema: mongoose.Schema<IAuth> = new mongoose.Schema<IAuth>({
   email: {
     type: String,
     trim: true,
@@ -34,4 +42,4 @@ const AuthSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Auth", AuthSchema);
+module.exports = mongoose.model<IAuth>("Auth", AuthSchema);

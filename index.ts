@@ -6,16 +6,22 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import * as dotenv from "dotenv";
+import helmet from "helmet";
+
+// initialize express
 const app = express();
-const cors = require("cors");
-const dotenv = require("dotenv");
 
 // setting up the environment variables
 dotenv.config();
 
 // allow cross origin requests (CORS) for all routes
 app.use(cors());
+
+// set security HTTP headers
+app.use(helmet());
 
 // parse incoming requests with JSON payloads
 app.use(express.json());
@@ -28,6 +34,15 @@ connectDatabase();
 // Identity Provider (IdP) service
 app.use("/api", require("./identity-provider/app"));
 
+// check if the PORT environment variable is set
+if (!process.env.PORT) {
+  process.exit(1);
+}
+
+// handle errors
+import handleError from "./utils/errors";
+app.use(handleError);
+
 // start the server
-const PORT = process.env.PORT || 5000;
+const PORT: number = parseInt(process.env.PORT, 10);
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

@@ -6,11 +6,13 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-const express = require("express");
+import express, { Request, Response } from "express";
+import userRoutes from "./userRoutes";
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", (req: Request, res: Response) => {
   res.send("Identity Provider Service is up and running!");
 });
+router.use("/user", userRoutes);
 
-module.exports = router;
+export default router;
