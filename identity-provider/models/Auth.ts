@@ -27,4 +27,17 @@ const AuthSchema: mongoose.Schema<IAuth> = new mongoose.Schema<IAuth>({
   },
 });
 
+export const toIAuth = (auth: any): IAuth => {
+  const { email, passwordHash } = auth;
+  if (!email) throw new Error("Email is required");
+  if (!passwordHash) throw new Error("Password hash is required");
+  return <IAuth>{
+    email: auth.email,
+    passwordHash: auth.passwordHash,
+    twoFactorAuthEnabled: auth.twoFactorAuthEnabled,
+    isBlocked: auth.isBlocked,
+    isDeleted: auth.isDeleted,
+  };
+};
+
 export default mongoose.model<IAuth>("Auth", AuthSchema);

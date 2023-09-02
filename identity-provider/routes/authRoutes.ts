@@ -16,6 +16,7 @@ router.post(
   "/register",
   userMiddlewares.checkRequiredUserFields,
   authMiddlewares.checkRequiredAuthFields,
+  authMiddlewares.hashPassword,
   authControllers.register
 );
 

@@ -71,4 +71,21 @@ const UserSchema: mongoose.Schema<IUser> = new mongoose.Schema<IUser>({
   },
 });
 
+export const toIUser = (user: any): IUser => {
+  const { firstName, displayName, email } = user;
+  if (!firstName) throw new Error("First name is required");
+  if (!displayName) throw new Error("Display name is required");
+  if (!email) throw new Error("Email is required");
+  return <IUser>{
+    firstName: user.firstName,
+    lastName: user.lastName,
+    displayName: user.displayName,
+    profilePictureURL: user.profilePictureURL,
+    dob: user.dob,
+    address: user.address,
+    phone: user.phone,
+    email: user.email,
+  };
+};
+
 export default mongoose.model<IUser>("User", UserSchema);
