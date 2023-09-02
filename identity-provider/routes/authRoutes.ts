@@ -8,8 +8,15 @@
 
 import express from "express";
 import authControllers from "../controllers/authControllers";
+import userMiddlewares from "../middlewares/userMiddlewares";
+import authMiddlewares from "../middlewares/authMiddlewares";
 const router = express.Router();
 
-router.post("/register", authControllers.register);
+router.post(
+  "/register",
+  userMiddlewares.checkRequiredUserFields,
+  authMiddlewares.checkRequiredAuthFields,
+  authControllers.register
+);
 
 export default router;

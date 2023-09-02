@@ -8,15 +8,14 @@
 
 import { Request, Response, NextFunction } from "express";
 
-export default interface IUserMiddlewares {
+export default interface IAuthMiddlewares {
   /**
    * Middleware to check the required fields for user registration
    * @param req Request object
    * @param res Response object
    * @param next Next function
    * @returns void
-   * @memberof IUserMiddlewares
-   *
+   * @memberof IAuthMiddlewares
    */
-  checkRequiredUserFields(req: Request, res: Response, next: NextFunction): any;
+  checkRequiredAuthFields(req: Request, res: Response, next: NextFunction): any;
 }
