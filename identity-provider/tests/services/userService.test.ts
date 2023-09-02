@@ -70,3 +70,82 @@ describe("UserService", () => {
     });
   });
 });
+
+describe("UserService", () => {
+  beforeAll(async () => {
+    const mongoServer = await MongoMemoryServer.create();
+    await mongoose.connect(mongoServer.getUri());
+  });
+  afterAll(async () => {
+    await mongoose.disconnect();
+    await mongoose.connection.close();
+  });
+  describe("update", () => {
+    describe("when the user does not exist", () => {
+      it("should throw an error if _id is not provided", async () => {
+        const user = <IUser>{
+          email: "test@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        await expect(UserService.update(user)).rejects.toThrow();
+      });
+      it("should throw an error if email is not provided", async () => {
+        const user = <IUser>{
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        await expect(UserService.update(user)).rejects.toThrow();
+      });
+      it("should throw an error if firstName is not provided", async () => {
+        const user = <IUser>{
+          email: "test@iitism.ac.in",
+          displayName: "Tester",
+        };
+        await expect(UserService.update(user)).rejects.toThrow();
+      });
+      it("should throw an error if displayName is not provided", async () => {
+        const user = <IUser>{
+          email: "test@iitism.ac.in",
+          firstName: "Test",
+        };
+        await expect(UserService.update(user)).rejects.toThrow();
+      });
+      it("should throw an error if email is invalid", async () => {
+        const user = <IUser>{
+          email: "test",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        await expect(UserService.update(user)).rejects.toThrow();
+      });
+      it("should throw an error if user does not exist", async () => {
+        const user = <IUser>{
+          email: "test@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        await expect(UserService.update(user)).rejects.toThrow();
+      });
+    });
+    describe("when the user with email already exists", () => {
+      it("should update a new user if required fields are provided", async () => {
+        const user = <IUser>{
+          _id: "5f9d4b2b9d6b2b1b1c9b1b1b",
+          email: "test@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        // create the user first
+        await UserService.create(user);
+        // update the user
+        const updatedUser = await UserService.update(user);
+        expect(updatedUser).toBeDefined();
+        expect(updatedUser?._id).toBeDefined();
+        expect(updatedUser?.email).toBe(user.email);
+        expect(updatedUser?.firstName).toBe(user.firstName);
+        expect(updatedUser?.displayName).toBe(user.displayName);
+      });
+    });
+  });
+});
