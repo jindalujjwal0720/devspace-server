@@ -1,5 +1,3 @@
-
-
 import mongoose from "mongoose";
 import IAuth from "./Auth.d";
 
@@ -29,4 +27,4 @@ const AuthSchema: mongoose.Schema<IAuth> = new mongoose.Schema<IAuth>({
   },
 });
 
-module.exports = mongoose.model<IAuth>("Auth", AuthSchema);
+export default mongoose.model<IAuth>("Auth", AuthSchema);

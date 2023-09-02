@@ -9,7 +9,9 @@
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import UserService from "../../services/userService";
+import AuthService from "../../services/authService";
 import IUser from "../../models/User.d";
+import IAuth from "../../models/Auth.d";
 
 describe("UserService", () => {
   beforeAll(async () => {
@@ -143,6 +145,96 @@ describe("UserService", () => {
         expect(updatedUser?.email).toBe(user.email);
         expect(updatedUser?.firstName).toBe(user.firstName);
         expect(updatedUser?.displayName).toBe(user.displayName);
+      });
+    });
+  });
+});
+
+describe("AuthService", () => {
+  beforeAll(async () => {
+    const mongoServer = await MongoMemoryServer.create();
+    await mongoose.connect(mongoServer.getUri());
+  });
+  afterAll(async () => {
+    await mongoose.disconnect();
+    await mongoose.connection.close();
+  });
+  var USER = <IUser>{}; // Sample user object to be used in tests
+  var AUTH = <IAuth>{}; // Sample user object to be used in tests
+  describe("register", () => {
+    describe("when the user does not exist", () => {
+      it("should throw an error if email is not provided", async () => {
+        const user = <IUser>{
+          _id: USER._id,
+          email: "test1@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        const auth = <IAuth>{
+          passwordHash: "Test",
+        };
+        await expect(AuthService.register(auth, user)).rejects.toThrow();
+      });
+      it("should throw an error if passwordHash is not provided", async () => {
+        const user = <IUser>{
+          _id: USER._id,
+          email: "test1@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        const auth = <IAuth>{
+          email: "test@iitism.ac.in",
+        };
+        await expect(AuthService.register(auth, user)).rejects.toThrow();
+      });
+      it("should throw an error if email is invalid", async () => {
+        const user = <IUser>{
+          _id: USER._id,
+          email: "test1@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        const auth = <IAuth>{
+          email: "test",
+          passwordHash: "Test",
+        };
+        await expect(AuthService.register(auth, user)).rejects.toThrow();
+      });
+      it("should register a new user if required fields are provided", async () => {
+        const user = <IUser>{
+          _id: USER._id,
+          email: "test1@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        const auth = <IAuth>{
+          email: "test@iitism.ac.in",
+          passwordHash: "Test",
+        };
+        const createdUser = await AuthService.register(auth, user);
+        expect(createdUser).toBeDefined();
+        expect(createdUser).toBeDefined();
+        expect(createdUser?._id).toBeDefined();
+        expect(createdUser?.email).toBe(user.email);
+        expect(createdUser?.firstName).toBe(user.firstName);
+        expect(createdUser?.displayName).toBe(user.displayName);
+        USER = createdUser;
+      });
+    });
+    describe("when the user with email already exists", () => {
+      it("should throw an error", async () => {
+        const user = <IUser>{
+          _id: USER._id,
+          email: "test1@iitism.ac.in",
+          firstName: "Test",
+          displayName: "Tester",
+        };
+        const auth = <IAuth>{
+          email: "test@iitism.ac.in",
+          passwordHash: "Test",
+        };
+        // Try to create the same user again
+        await expect(AuthService.register(auth, user)).rejects.toThrow();
       });
     });
   });
