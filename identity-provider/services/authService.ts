@@ -18,14 +18,19 @@ import { toIAuth } from "../models/Auth";
 
 class AuthService implements IAuthService {
   public async register(userData: any): Promise<IUser> {
-    const user: IUser = toIUser(userData.user);
-    const auth: IAuth = toIAuth(userData.auth);
+    const user: IUser = toIUser(userData);
+    const auth: IAuth = toIAuth(userData);
     if (!validator.isEmail(auth.email) || !validator.isEmail(user.email))
       throw new BadRequestError("Invalid email");
     const alreadyExists = await AuthRepository.getByEmail(auth.email);
     if (alreadyExists) throw new BadRequestError("Auth already exists");
     const newUser = await UserService.create(user);
-    const newAuth = await AuthRepository.create(auth);
+    try {
+      await AuthRepository.create(auth);
+    } catch (error) {
+      await UserService.deleteById(newUser._id);
+      throw error;
+    }
     return newUser;
   }
 }

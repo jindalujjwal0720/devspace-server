@@ -30,6 +30,10 @@ class UserService implements IUserService {
     const updatedUser = await UserRepository.update(user);
     return updatedUser;
   }
+
+  public async deleteById(id: string): Promise<IUser | null> {
+    return await UserRepository.deleteById(id);
+  }
 }
 
 export default new UserService();

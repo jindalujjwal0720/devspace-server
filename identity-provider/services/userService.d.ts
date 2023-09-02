@@ -16,10 +16,11 @@ export default interface IUserService {
    * @memberof IUserService
    */
   create(user: IUser): Promise<IUser>;
+
   /**
    * Updates a user
    * @param user IUser
-   * @returns Promise<IUser>
+   * @returns Promise<IUser | null>
    * @memberof IUserService
    * @throws Error
    * @example
@@ -40,4 +41,27 @@ export default interface IUserService {
    * // }
    */
   update(user: IUser): Promise<IUser | null>;
+
+  /**
+   * Deletes a user by id
+   * @param id string
+   * @returns Promise<IUser | null>
+   * @memberof IUserService
+   * @throws Error
+   * @example
+   * const user = await userService.deleteById("5f9f4a3b9d3e4b1b2c9d4e5f");
+   * console.log(user);
+   * // {
+   * //   _id: "5f9f4a3b9d3e4b1b2c9d4e5f",
+   * //   firstName: "John",
+   * //   lastName: "Doe",
+   * //   displayName: "John Doe",
+   * //   email: "john@iitism.ac.in"
+   * // }
+   * @example
+   * const user = await userService.deleteById("5f9f4a3b9d3e4b1b2c9d4e5f");
+   * console.log(user);
+   * // null
+   */
+  deleteById(id: string): Promise<IUser | null>;
 }

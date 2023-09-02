@@ -30,6 +30,7 @@ class AuthMiddlewares implements IAuthMiddlewares {
     const { password } = user;
     const hashedPassword = HashUtility.hashPassword(password);
     user.passwordHash = hashedPassword;
+    req.body.user = user;
     next();
   }
 }

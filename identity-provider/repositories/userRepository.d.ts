@@ -115,4 +115,27 @@ export default interface IUserRepository {
    * // null
    */
   update(user: IUser): Promise<IUser | null>;
+
+  /**
+   * Deletes a user by id
+   * @param {string} id The id of the user
+   * @returns {Promise<IUser | null>} The deleted user object
+   * @throws {Error} If the user is not found
+   * @memberof IUserRepository
+   * @example
+   * const user = await userRepository.deleteById("5f9f4a3b9d3e4b1b2c9d4e5f");
+   * console.log(user);
+   * // {
+   * //   firstName: "John",
+   * //   lastName: "Doe",
+   * //   displayName: "John Doe",
+   * //   email: "john@iitism",
+   * //   _id: "5f9f4a3b9d3e4b1b2c9d4e5f"
+   * // }
+   * @example
+   * const user = await userRepository.deleteById("5f9f4a3b9d3e4b1b2c9d4e5f");
+   * console.log(user);
+   * // null
+   */
+  deleteById(id: string): Promise<IUser | null>;
 }

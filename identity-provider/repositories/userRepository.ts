@@ -27,6 +27,10 @@ class UserRepository implements IUserRepository {
   public async update(user: IUser): Promise<IUser | null> {
     return await User.findByIdAndUpdate(user._id, user, { new: true });
   }
+
+  public async deleteById(_id: string): Promise<IUser | null> {
+    return await User.findByIdAndDelete(_id);
+  }
 }
 
 export default new UserRepository();

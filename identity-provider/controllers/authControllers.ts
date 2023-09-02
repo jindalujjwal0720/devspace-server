@@ -8,7 +8,6 @@
 
 import { NextFunction, Request, Response } from "express";
 import IAuthControllers from "./authControllers.d";
-import IAuth from "../models/Auth.d";
 import authService from "../services/authService";
 
 class AuthControllers implements IAuthControllers {

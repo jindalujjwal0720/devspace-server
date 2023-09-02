@@ -8,11 +8,13 @@
 
 import express, { Request, Response } from "express";
 import userRoutes from "./userRoutes";
+import authRoutes from "./authRoutes";
 const router = express.Router();
 
 router.get("/", (req: Request, res: Response) => {
   res.send("Identity Provider Service is up and running!");
 });
 router.use("/user", userRoutes);
+router.use("/auth", authRoutes);
 
 export default router;
