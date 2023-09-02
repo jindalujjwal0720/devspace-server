@@ -6,8 +6,8 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-import { IUser } from "../models/User";
+import IUser from "../models/User.d";
 
 export default interface IUserService {
-  createUser(user: IUser): Promise<IUser>;
+  create(user: IUser): Promise<IUser>;
 }

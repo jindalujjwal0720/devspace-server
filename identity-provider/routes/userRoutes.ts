@@ -6,11 +6,8 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-import express, { Request, Response } from "express";
-import UserControllers from "./../controllers/userControllers";
+import express from "express";
 
 const router = express.Router();
-
-router.post("/create", UserControllers.createUser);
 
 export default router;

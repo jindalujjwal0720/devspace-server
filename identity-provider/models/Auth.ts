@@ -7,14 +7,7 @@
  */
 
 import mongoose from "mongoose";
-
-export interface IAuth extends mongoose.Document {
-  email: string;
-  passwordHash: string;
-  twoFactorAuthEnabled: boolean;
-  isBlocked: boolean;
-  isDeleted: boolean;
-}
+import IAuth from "./Auth.d";
 
 const AuthSchema: mongoose.Schema<IAuth> = new mongoose.Schema<IAuth>({
   email: {

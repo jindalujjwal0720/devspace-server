@@ -6,7 +6,7 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-import { IUser } from "../models/User";
+import IUser from "../models/User.d";
 
 export default interface IUserRepository {
   /**
@@ -32,5 +32,28 @@ export default interface IUserRepository {
    * //   _id: "5f9f4a3b9d3e4b1b2c9d4e5f"
    * // }
    */
-  createUser(user: IUser): Promise<IUser>;
+  create(user: IUser): Promise<IUser>;
+
+  /**
+   * Gets a user by email
+   * @param {string} email The email of the user
+   * @returns {Promise<IUser | any>} The user object
+   * @throws {Error} If the user is not found
+   * @memberof IUserRepository
+   * @example
+   * const user = await userRepository.getByEmail("john@iitism.ac.in");
+   * console.log(user);
+   * // {
+   * //   firstName: "John",
+   * //   lastName: "Doe",
+   * //   displayName: "John Doe",
+   * //   email: "john@iitism.ac.in",
+   * //   _id: "5f9f4a3b9d3e4b1b2c9d4e5f"
+   * // }
+   * @example
+   * const user = await userRepository.getByEmail("lisa@iitism.ac.in");
+   * console.log(user);
+   * // null
+   */
+  getByEmail(email: string): Promise<IUser | any>;
 }

@@ -8,11 +8,17 @@
 
 import IUserService from "./userService.d";
 import UserRepository from "../repositories/userRepository";
-import { IUser } from "../models/User";
+import IUser from "../models/User.d";
+import { BadRequestError } from "../../utils/errors";
+import validator from "validator";
 
 class UserService implements IUserService {
-  public async createUser(user: IUser): Promise<IUser> {
-    const createdUser = await UserRepository.createUser(user);
+  public async create(user: IUser): Promise<IUser> {
+    if (!validator.isEmail(user.email))
+      throw new BadRequestError("Invalid email");
+    const alreadyExists = await UserRepository.getByEmail(user.email);
+    if (alreadyExists) throw new BadRequestError("User already exists");
+    const createdUser = await UserRepository.create(user);
     return createdUser;
   }
 }
