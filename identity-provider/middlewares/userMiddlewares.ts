@@ -6,8 +6,8 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-import { NextFunction, Request, Response } from "express";
+import IUserMiddlewares from "./userMiddlewares.d";
 
-export default interface IUserControllers {
-  update(req: Request, res: Response, next: NextFunction): Promise<void>;
-}
+class UserMiddlewares implements IUserMiddlewares {}
+
+export default new UserMiddlewares();

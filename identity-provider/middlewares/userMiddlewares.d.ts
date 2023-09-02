@@ -6,8 +6,4 @@
  * Proprietary and confidential. All rights reserved.
  */
 
-import { NextFunction, Request, Response } from "express";
-
-export default interface IUserControllers {
-  update(req: Request, res: Response, next: NextFunction): Promise<void>;
-}
+export default interface IUserMiddlewares {}
