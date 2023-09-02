@@ -20,6 +20,7 @@ describe("UserService", () => {
     await mongoose.disconnect();
     await mongoose.connection.close();
   });
+  var USER = <IUser>{}; // Sample user object to be used in tests
   describe("create", () => {
     describe("when the user does not exist", () => {
       it("should throw an error if email is not provided", async () => {
@@ -63,6 +64,7 @@ describe("UserService", () => {
         expect(createdUser.email).toBe(user.email);
         expect(createdUser.firstName).toBe(user.firstName);
         expect(createdUser.displayName).toBe(user.displayName);
+        USER = createdUser;
       });
     });
     describe("when the user with email already exists", () => {
@@ -77,17 +79,7 @@ describe("UserService", () => {
       });
     });
   });
-});
 
-describe("UserService", () => {
-  beforeAll(async () => {
-    const mongoServer = await MongoMemoryServer.create();
-    await mongoose.connect(mongoServer.getUri());
-  });
-  afterAll(async () => {
-    await mongoose.disconnect();
-    await mongoose.connection.close();
-  });
   describe("update", () => {
     describe("when the user does not exist", () => {
       it("should throw an error if _id is not provided", async () => {
@@ -139,13 +131,11 @@ describe("UserService", () => {
     describe("when the user with email already exists", () => {
       it("should update a new user if required fields are provided", async () => {
         const user = <IUser>{
-          _id: "5f9d4b2b9d6b2b1b1c9b1b1b",
+          _id: USER._id,
           email: "test@iitism.ac.in",
           firstName: "Test",
           displayName: "Tester",
         };
-        // create the user first
-        await UserService.create(user);
         // update the user
         const updatedUser = await UserService.update(user);
         expect(updatedUser).toBeDefined();
