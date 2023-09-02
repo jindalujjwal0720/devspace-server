@@ -21,6 +21,15 @@ class UserService implements IUserService {
     const createdUser = await UserRepository.create(user);
     return createdUser;
   }
+
+  public async update(user: IUser): Promise<IUser | null> {
+    const existingUser = await UserRepository.getById(user._id);
+    if (!existingUser) throw new BadRequestError("User does not exist");
+    if (user.email !== existingUser.email)
+      throw new BadRequestError("Email cannot be changed");
+    const updatedUser = await UserRepository.update(user);
+    return updatedUser;
+  }
 }
 
 export default new UserService();

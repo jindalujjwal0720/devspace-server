@@ -16,8 +16,16 @@ class UserRepository implements IUserRepository {
     return createdUser;
   }
 
-  public async getByEmail(email: string): Promise<IUser | any> {
+  public async getByEmail(email: string): Promise<IUser | null> {
     return await User.findOne({ email });
+  }
+
+  public async getById(_id: string): Promise<IUser | null> {
+    return await User.findById(_id);
+  }
+
+  public async update(user: IUser): Promise<IUser | null> {
+    return await User.findByIdAndUpdate(user._id, user, { new: true });
   }
 }
 
