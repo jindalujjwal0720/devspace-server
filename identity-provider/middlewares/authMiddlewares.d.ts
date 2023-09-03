@@ -18,5 +18,5 @@ export default interface IAuthMiddlewares {
    * @memberof IAuthMiddlewares
    */
   checkRequiredAuthFields(req: Request, res: Response, next: NextFunction): any;
-  hashPassword(req: Request, res: Response, next: NextFunction): void;
+  hashPassword(req: Request, res: Response, next: NextFunction): Promise<void>;
 }

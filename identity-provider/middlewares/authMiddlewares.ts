@@ -25,10 +25,14 @@ class AuthMiddlewares implements IAuthMiddlewares {
     next();
   }
 
-  public hashPassword(req: Request, res: Response, next: NextFunction): void {
+  public async hashPassword(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
     const { user } = req.body;
     const { password } = user;
-    const hashedPassword = HashUtility.hashPassword(password);
+    const hashedPassword = await HashUtility.hashPassword(password);
     user.passwordHash = hashedPassword;
     req.body.user = user;
     next();

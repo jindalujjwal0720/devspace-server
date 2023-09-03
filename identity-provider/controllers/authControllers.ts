@@ -9,6 +9,7 @@
 import { NextFunction, Request, Response } from "express";
 import IAuthControllers from "./authControllers.d";
 import authService from "../services/authService";
+import { BadRequestError } from "../../utils/errors";
 
 class AuthControllers implements IAuthControllers {
   public async register(
@@ -18,9 +19,9 @@ class AuthControllers implements IAuthControllers {
   ): Promise<void> {
     try {
       const { user } = req.body;
-      const createdAuth = await authService.register(user);
+      const createdUser = await authService.register(user);
       res.status(200).json({
-        auth: createdAuth,
+        user: createdUser,
         message: "User created Successfully",
       });
     } catch (error) {
@@ -53,8 +54,9 @@ class AuthControllers implements IAuthControllers {
     try {
       const { token, otp } = req.body;
       const verified = await authService.verifyOneTimePasswordToken(token, otp);
-      if (!verified) throw new Error("Invalid OTP");
+      if (!verified) throw new BadRequestError("Invalid OTP");
       res.status(200).json({
+        verified,
         message: "OTP verified successfully",
       });
     } catch (error) {
