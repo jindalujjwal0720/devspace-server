@@ -7,5 +7,8 @@
  */
 
 export default interface IEmailUtility {
-  sendOTPMail(config: { to: string; otp: string }): Promise<boolean>;
+  sendOneTimePasswordEmail(config: {
+    to: string;
+    otp: string;
+  }): Promise<boolean>;
 }

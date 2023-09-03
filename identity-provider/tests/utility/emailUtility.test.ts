@@ -8,26 +8,34 @@
 
 import EmailUtility from "../../utils/EmailUtility";
 
-describe("MailingUtility", () => {
-  it("if to not provided", async () => {
-    const result = await EmailUtility.sendOTPMail({
-      to: "",
-      otp: "123456",
+describe("EmailUtility", () => {
+  describe("when 'to' is not provided", () => {
+    it("should return false", async () => {
+      const result = await EmailUtility.sendOneTimePasswordEmail({
+        to: "",
+        otp: "123456",
+      });
+      expect(result).toBe(false);
     });
-    expect(result).toBe(false);
   });
-  it("if otp not provided", async () => {
-    const result = await EmailUtility.sendOTPMail({
-      to: "test@gmail.com",
-      otp: "",
+
+  describe("when 'otp' is not provided", () => {
+    it("should return false", async () => {
+      const result = await EmailUtility.sendOneTimePasswordEmail({
+        to: "test@iitism.ac.in",
+        otp: "",
+      });
+      expect(result).toBe(false);
     });
-    expect(result).toBe(false);
   });
-  it("if otp and to provided", async () => {
-    const result = await EmailUtility.sendOTPMail({
-      to: "chandraprakash47637@gmail.com",
-      otp: "654321",
+
+  describe("when all the required details are provided", () => {
+    it("should return true", async () => {
+      const result = await EmailUtility.sendOneTimePasswordEmail({
+        to: "test@iitism.ac.in",
+        otp: "123456",
+      });
+      expect(result).toBe(true);
     });
-    expect(result).toBe(true);
   });
 });
