@@ -170,4 +170,29 @@ describe("AuthService", () => {
       expect(token).toBeDefined();
     });
   });
+
+  describe("verifyOneTimePasswordToken", () => {
+    it("should return false if token is invalid", async () => {
+      const verified = await AuthService.verifyOneTimePasswordToken(
+        "invalid-token",
+        "123456"
+      );
+      expect(verified).toBe(false);
+    });
+
+    it("should return false if otp is invalid", async () => {
+      const user = <any>{
+        email: "test@iitism.ac.in",
+        firstName: "Test",
+        displayName: "Tester",
+        passwordHash: "Test",
+      };
+      const token = await AuthService.sendOneTimePasswordEmail(user);
+      const verified = await AuthService.verifyOneTimePasswordToken(
+        token,
+        "123456"
+      );
+      expect(verified).toBe(false);
+    });
+  });
 });

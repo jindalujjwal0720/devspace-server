@@ -8,6 +8,7 @@
 
 import nodeMailer from "nodemailer";
 import IEmailUtility from "./EmailUtility.d";
+import otpEmailTemplate from "./views/otpEmailTemplate";
 
 class EmailUtility implements IEmailUtility {
   private transporter: nodeMailer.Transporter;
@@ -38,7 +39,7 @@ class EmailUtility implements IEmailUtility {
         from: process.env.EMAIL_USER,
         to,
         subject: "One Time Password",
-        html: `<p>Your One Time Password is <strong>${otp}</strong></p>`,
+        html: otpEmailTemplate(otp),
       });
       return true;
     } catch (error) {
