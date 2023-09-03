@@ -19,7 +19,9 @@ describe("AuthService", () => {
     await mongoose.disconnect();
     await mongoose.connection.close();
   });
+
   var USER = <any>{}; // Sample user object to be used in tests
+
   describe("register", () => {
     it("should throw an error if email is not provided", async () => {
       const user = <any>{
@@ -97,6 +99,75 @@ describe("AuthService", () => {
         // Try to create the same user again
         await expect(AuthService.register(user)).rejects.toThrow();
       });
+    });
+  });
+
+  describe("sendOneTimePasswordEmail", () => {
+    it("should throw an error if email is not provided", async () => {
+      const user = <any>{
+        firstName: "Test",
+        displayName: "Tester",
+        passwordHash: "Test",
+      };
+      await expect(
+        AuthService.sendOneTimePasswordEmail(user)
+      ).rejects.toThrow();
+    });
+
+    it("should throw an error if passwordHash is not provided", async () => {
+      const user = <any>{
+        email: "test@iitism.ac.in",
+        firstName: "Test",
+        displayName: "Tester",
+      };
+      await expect(
+        AuthService.sendOneTimePasswordEmail(user)
+      ).rejects.toThrow();
+    });
+
+    it("should throw an error if email is invalid", async () => {
+      const user = <any>{
+        email: "test",
+        firstName: "Test",
+        displayName: "Tester",
+        passwordHash: "Test",
+      };
+      await expect(
+        AuthService.sendOneTimePasswordEmail(user)
+      ).rejects.toThrow();
+    });
+
+    it("should throw an error if firstName is not provided", async () => {
+      const user = <any>{
+        email: "test@iitism.ac.in",
+        displayName: "Tester",
+        passwordHash: "Test",
+      };
+      await expect(
+        AuthService.sendOneTimePasswordEmail(user)
+      ).rejects.toThrow();
+    });
+
+    it("should throw an error if displayName is not provided", async () => {
+      const user = <any>{
+        email: "test@iitism.ac.in",
+        firstName: "Test",
+        passwordHash: "Test",
+      };
+      await expect(
+        AuthService.sendOneTimePasswordEmail(user)
+      ).rejects.toThrow();
+    });
+
+    it("should send an OTP to the user email if all required fields are provided", async () => {
+      const user = <any>{
+        email: "test@iitism.ac.in",
+        firstName: "Test",
+        displayName: "Tester",
+        passwordHash: "Test",
+      };
+      const token = await AuthService.sendOneTimePasswordEmail(user);
+      expect(token).toBeDefined();
     });
   });
 });

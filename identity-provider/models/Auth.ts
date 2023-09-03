@@ -34,9 +34,9 @@ export const toIAuth = (auth: any): IAuth => {
   return <IAuth>{
     email: auth.email,
     passwordHash: auth.passwordHash,
-    twoFactorAuthEnabled: auth.twoFactorAuthEnabled,
-    isBlocked: auth.isBlocked,
-    isDeleted: auth.isDeleted,
+    twoFactorAuthEnabled: auth.twoFactorAuthEnabled || false,
+    isBlocked: auth.isBlocked || false,
+    isDeleted: auth.isDeleted || false,
   };
 };
 

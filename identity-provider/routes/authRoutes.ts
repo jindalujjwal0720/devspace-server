@@ -19,5 +19,13 @@ router.post(
   authMiddlewares.hashPassword,
   authControllers.register
 );
+router.post(
+  "/send-otp",
+  userMiddlewares.checkRequiredUserFields,
+  authMiddlewares.checkRequiredAuthFields,
+  authMiddlewares.hashPassword,
+  authControllers.sendOneTimePasswordEmail
+);
+router.post("/verify-otp", authControllers.verifyOneTimePasswordToken);
 
 export default router;

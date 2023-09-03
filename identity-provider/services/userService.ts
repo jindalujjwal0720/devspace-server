@@ -9,7 +9,7 @@
 import IUserService from "./userService.d";
 import UserRepository from "../repositories/userRepository";
 import IUser from "../models/User.d";
-import { BadRequestError } from "../../utils/errors";
+import { BadRequestError, NotFoundError } from "../../utils/errors";
 import validator from "validator";
 
 class UserService implements IUserService {
@@ -24,7 +24,7 @@ class UserService implements IUserService {
 
   public async update(user: IUser): Promise<IUser | null> {
     const existingUser = await UserRepository.getById(user._id);
-    if (!existingUser) throw new BadRequestError("User does not exist");
+    if (!existingUser) throw new NotFoundError("User does not exist");
     if (user.email !== existingUser.email)
       throw new BadRequestError("Email cannot be changed");
     const updatedUser = await UserRepository.update(user);

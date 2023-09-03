@@ -10,4 +10,14 @@ import { NextFunction, Request, Response } from "express";
 
 export default interface IAuthControllers {
   register(req: Request, res: Response, next: NextFunction): Promise<void>;
+  sendOneTimePasswordEmail(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void>;
+  verifyOneTimePasswordToken(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void>;
 }
